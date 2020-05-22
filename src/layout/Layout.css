@@ -43,8 +43,12 @@
 
 .card {
   background-color: #f8f8f8;
-  border-radius: 0.4rem;
+  border-radius: 1rem;
   border: none;
+}
+
+.card-body {
+  padding: 1.2rem 0 0 0;
 }
 
 .fa-circle {
@@ -87,5 +91,16 @@
 }
 
 .sidebar {
-  background-color: beige;
+  height: 100vh;
+  background-color: #f8f8f8;
+}
+
+.favourite-card {
+  max-width: 26rem;
+  background-color: #fff;
+  box-shadow: 0 4px 8px 1px rgba(48, 48, 48, 0.1);
+}
+
+.favourite-card p {
+  font-size: 1rem;
 }
