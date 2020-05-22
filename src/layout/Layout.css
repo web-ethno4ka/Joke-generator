@@ -78,7 +78,7 @@
 
 .btn {
   font-size: 1.1rem;
-  max-width: 10rem;
+  width: 10rem;
   color: #fff;
   background-color: #7190ff;
   border-radius: 0.4rem;
@@ -91,6 +91,7 @@
 }
 
 .sidebar {
+  padding-left: 0;
   height: 100vh;
   background-color: #f8f8f8;
 }
@@ -98,9 +99,13 @@
 .favourite-card {
   max-width: 26rem;
   background-color: #fff;
-  box-shadow: 0 4px 8px 1px rgba(48, 48, 48, 0.1);
+  box-shadow: 0 3px 7px 1px rgba(48, 48, 48, 0.1);
 }
 
 .favourite-card p {
   font-size: 1rem;
+}
+
+h3 {
+  color: #ababab;
 }
