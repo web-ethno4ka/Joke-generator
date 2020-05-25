@@ -1,13 +1,13 @@
 import React from 'react';
 import './Radiobutton.css';
 
-const radioButton = (props) => {
+const RadioButton = (props) => {
   return (
     <div className="form-check mt-2">
       <input
         className="form-check-input"
         type="radio"
-        name={props.name}
+        name="radiobtn"
         id={props.id}
         value={props.option}
       />
@@ -18,4 +18,4 @@ const radioButton = (props) => {
   );
 };
 
-export default radioButton;
+export default RadioButton;

@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
 import './Layout.css';
 import RadioButton from '../component/Radiobutton/Radiobutton';
+import Category from '../component/Category/Category';
 
 class Layout extends Component {
   state = {
     radio: [
-      { name: 'radiobtn-1', id: 1, value: 'option-1', title: 'Process' },
-      {
-        name: 'radiobtn-1',
-        id: 2,
-        value: 'option-2',
-        title: 'From categories',
-      },
-      { name: 'radiobtn-1', id: 3, value: 'option-3', title: 'Search' },
+      { id: 1, value: 'option-1', title: 'Random' },
+      { id: 2, value: 'option-2', title: 'From categories' },
+      { id: 3, value: 'option-3', title: 'Search' },
+    ],
+
+    category: [
+      { id: 4, value: 'option-4', title: 'ANIMAL' },
+      { id: 5, value: 'option-5', title: 'CAREER' },
+      { id: 6, value: 'option-6', title: 'CELEBRITY' },
+      { id: 7, value: 'option-7', title: 'DEV' },
     ],
   };
   render() {
     const radio = this.state.radio;
+    const category = this.state.category;
+
     return (
       <div className="d-flex flex-row justify-content-between">
         <div className="d-flex flex-column col-8 my-5">
@@ -25,26 +30,42 @@ class Layout extends Component {
             <h2>Let's try to find a joke for you:</h2>
             <div className="d-flex flex-column mt-3">
               <RadioButton
-                name={radio[0].name}
                 id={radio[0].id}
                 value={radio[0].option}
-                htmlFor={radio[0].id}
                 title={radio[0].title}
               />
-
               <RadioButton
-                name={radio[1].name}
                 id={radio[1].id}
                 value={radio[1].option}
-                htmlFor={radio[1].id}
                 title={radio[1].title}
               />
 
+              <div className="joke-categories">
+                <Category
+                  id={category[0].id}
+                  value={category[0].option}
+                  title={category[0].title}
+                />
+                <Category
+                  id={category[1].id}
+                  value={category[1].option}
+                  title={category[1].title}
+                />
+                <Category
+                  id={category[2].id}
+                  value={category[2].option}
+                  title={category[2].title}
+                />
+                <Category
+                  id={category[3].id}
+                  value={category[3].option}
+                  title={category[3].title}
+                />
+              </div>
+
               <RadioButton
-                name={radio[2].name}
                 id={radio[2].id}
                 value={radio[2].option}
-                htmlFor={radio[2].id}
                 title={radio[2].title}
               />
 
@@ -59,25 +80,6 @@ class Layout extends Component {
                 <label className="form-check-label" htmlFor="radio-btn-2">
                   From Categories
                 </label>
-              </div>
-
-              <div className="joke-categories">
-                <div className="radio-group">
-                  <input id="radio-1" type="radio" name="radio" value="1" />
-                  <label htmlFor="radio-1">ANIMAL</label>
-                </div>
-                <div className="radio-group">
-                  <input id="radio-2" type="radio" name="radio" value="2" />
-                  <label htmlFor="radio-2">CAREER</label>
-                </div>
-                <div className="radio-group">
-                  <input id="radio-3" type="radio" name="radio" value="3" />
-                  <label htmlFor="radio-3">CELEBRITY</label>
-                </div>
-                <div className="radio-group">
-                  <input id="radio-4" type="radio" name="radio" value="4" />
-                  <label htmlFor="radio-4">DEV</label>
-                </div>
               </div>
 
               <div className="form-check mt-2">
