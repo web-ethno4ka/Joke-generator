@@ -1,0 +1,34 @@
+.card {
+  background-color: #f8f8f8;
+  border-radius: 1rem;
+  border: none;
+}
+
+.card-body {
+  padding: 1.2rem 0 0 0;
+}
+
+.fa-circle {
+  color: #ffffff;
+}
+
+.fa-comment-alt {
+  color: #ababab;
+}
+
+.fa-heart {
+  color: red;
+  transition: transform 0.3s ease-in-out;
+}
+
+.fa-heart:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.categorie {
+  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+  background-color: #ffffff;
+  border-radius: 0.4rem;
+}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Layout.css';
 import RadioButton from '../component/Radiobutton/Radiobutton';
 import Category from '../component/Category/Category';
+import Card from '../component/Card/Card';
 
 class Layout extends Component {
   state = {
@@ -17,10 +18,13 @@ class Layout extends Component {
       { id: 6, value: 'option-6', title: 'CELEBRITY' },
       { id: 7, value: 'option-7', title: 'DEV' },
     ],
+
+    quote: [{ title: 'ANIMAL' }, { title: 'CELEBRITY' }],
   };
   render() {
     const radio = this.state.radio;
     const category = this.state.category;
+    const quote = this.state.quote;
 
     return (
       <div className="d-flex flex-row justify-content-between">
@@ -69,54 +73,24 @@ class Layout extends Component {
                 title={radio[2].title}
               />
 
-              <div className="form-check mt-2">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="radiobtn"
-                  id="radio-btn-2"
-                  value="option2"
-                />
-                <label className="form-check-label" htmlFor="radio-btn-2">
-                  From Categories
-                </label>
-              </div>
-
-              <div className="form-check mt-2">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="radiobtn"
-                  id="radio-btn-3"
-                  value="option3"
-                />
-                <label className="form-check-label" htmlFor="radio-btn-3">
-                  Search
-                </label>
-              </div>
               <input
                 className="mt-2 custom"
                 type="text"
                 placeholder="Free text search..."
               />
             </div>
+
             <button type="button" className="btn mt-4">
               Get a joke
             </button>
-            <div className="card mt-5 p-4">
-              <i className="far fa-heart col-1 align-self-end"></i>
-              <div className="card-body d-flex justify-content-between">
-                <i className="far fa-comment-alt fa-inverse col-1"></i>
-                <p className="col-11">
-                  No one truly knows who's Chuck Norris' real father. No one is
-                  biologically strong enough for this. He must've conceived
-                  himself.
-                </p>
-              </div>
-              <div className="categorie align-self-end">CELEBRITY</div>
-            </div>
+
+            <Card title={quote[0].title}>
+              No one truly knows who's Chuck Norris' real father. No one is
+              biologically strong enough for this. He must've conceived himself.
+            </Card>
           </div>
         </div>
+
         <div className="sidebar d-flex flex-column col-3 pt-5">
           <div className="mx-auto my-0 col-10">
             <h3>Favourite</h3>
