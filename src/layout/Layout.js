@@ -19,12 +19,18 @@ class Layout extends Component {
       { id: 7, value: 'option-7', title: 'DEV' },
     ],
 
-    quote: [{ title: 'ANIMAL' }, { title: 'CELEBRITY' }],
+    joke_category: [{ title: 'ANIMAL' }, { title: 'CELEBRITY' }],
+
+    card_classes: [
+      { classes: 'card mt-5 p-4' },
+      { classes: 'card favourite-card mt-5 p-4' },
+    ],
   };
   render() {
     const radio = this.state.radio;
     const category = this.state.category;
-    const quote = this.state.quote;
+    const joke_category = this.state.joke_category;
+    const card_classes = this.state.card_classes;
 
     return (
       <div className="d-flex flex-row justify-content-between">
@@ -84,7 +90,10 @@ class Layout extends Component {
               Get a joke
             </button>
 
-            <Card title={quote[0].title}>
+            <Card
+              classes={card_classes[0].classes}
+              title={joke_category[0].title}
+            >
               No one truly knows who's Chuck Norris' real father. No one is
               biologically strong enough for this. He must've conceived himself.
             </Card>
@@ -94,28 +103,20 @@ class Layout extends Component {
         <div className="sidebar d-flex flex-column col-3 pt-5">
           <div className="mx-auto my-0 col-10">
             <h3>Favourite</h3>
-            <div className="card favourite-card mt-5 p-4">
-              <i className="far fa-heart col-1 align-self-end"></i>
-              <div className="card-body d-flex justify-content-between">
-                <i className="far fa-comment-alt fa-inverse col-1 mr-1"></i>
-                <p className="col-11">
-                  No one truly knows who's Chuck Norris' real father. No one is
-                  biologically strong enough for this. He must've conceived
-                  himself.
-                </p>
-              </div>
-            </div>
-            <div className="card favourite-card mt-5 p-4">
-              <i className="far fa-heart col-1 align-self-end"></i>
-              <div className="card-body d-flex justify-content-between">
-                <i className="far fa-comment-alt fa-inverse col-1 mr-1"></i>
-                <p className="col-11">
-                  No one truly knows who's Chuck Norris' real father. No one is
-                  biologically strong enough for this. He must've conceived
-                  himself.
-                </p>
-              </div>
-            </div>
+            <Card
+              classes={card_classes[1].classes}
+              title={joke_category[0].title}
+            >
+              No one truly knows who's Chuck Norris' real father. No one is
+              biologically strong enough for this. He must've conceived himself.
+            </Card>
+            <Card
+              classes={card_classes[1].classes}
+              title={joke_category[1].title}
+            >
+              No one truly knows who's Chuck Norris' real father. No one is
+              biologically strong enough for this. He must've conceived himself.
+            </Card>
           </div>
         </div>
       </div>
