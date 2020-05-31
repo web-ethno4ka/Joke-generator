@@ -25,12 +25,21 @@ class Layout extends Component {
       { classes: 'card mt-5 p-4' },
       { classes: 'card favourite-card mt-5 p-4' },
     ],
+
+    checked: null,
   };
+
+  onSelected = (e) => {
+    // console.log(e.currentTarget.id);
+    this.setState({ checked: e.currentTarget.id });
+  };
+
   render() {
     const radio = this.state.radio;
     const category = this.state.category;
     const joke_category = this.state.joke_category;
     const card_classes = this.state.card_classes;
+    const checked = this.state.checked;
 
     return (
       <div className="d-flex flex-row justify-content-between">
@@ -40,50 +49,57 @@ class Layout extends Component {
             <h2>Let's try to find a joke for you:</h2>
             <div className="d-flex flex-column mt-3">
               <RadioButton
+                onSelected={this.onSelected}
                 id={radio[0].id}
                 value={radio[0].option}
                 title={radio[0].title}
               />
               <RadioButton
+                onSelected={this.onSelected}
                 id={radio[1].id}
                 value={radio[1].option}
                 title={radio[1].title}
               />
 
-              <div className="joke-categories">
-                <Category
-                  id={category[0].id}
-                  value={category[0].option}
-                  title={category[0].title}
-                />
-                <Category
-                  id={category[1].id}
-                  value={category[1].option}
-                  title={category[1].title}
-                />
-                <Category
-                  id={category[2].id}
-                  value={category[2].option}
-                  title={category[2].title}
-                />
-                <Category
-                  id={category[3].id}
-                  value={category[3].option}
-                  title={category[3].title}
-                />
-              </div>
+              {checked == 2 ? (
+                <div className="joke-categories">
+                  <Category
+                    id={category[0].id}
+                    value={category[0].option}
+                    title={category[0].title}
+                  />
+                  <Category
+                    id={category[1].id}
+                    value={category[1].option}
+                    title={category[1].title}
+                  />
+                  <Category
+                    id={category[2].id}
+                    value={category[2].option}
+                    title={category[2].title}
+                  />
+                  <Category
+                    id={category[3].id}
+                    value={category[3].option}
+                    title={category[3].title}
+                  />
+                </div>
+              ) : null}
 
               <RadioButton
+                onSelected={this.onSelected}
                 id={radio[2].id}
                 value={radio[2].option}
                 title={radio[2].title}
               />
 
-              <input
-                className="mt-2 custom"
-                type="text"
-                placeholder="Free text search..."
-              />
+              {checked == 3 ? (
+                <input
+                  className="mt-2 custom"
+                  type="text"
+                  placeholder="Free text search..."
+                />
+              ) : null}
             </div>
 
             <button type="button" className="btn mt-4">

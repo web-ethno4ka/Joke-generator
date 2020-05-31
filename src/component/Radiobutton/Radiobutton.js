@@ -5,6 +5,7 @@ const RadioButton = (props) => {
   return (
     <div className="form-check mt-2">
       <input
+        onChange={props.onSelected}
         className="form-check-input"
         type="radio"
         name="radiobtn"
