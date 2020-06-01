@@ -19,27 +19,42 @@ class Layout extends Component {
       { id: 7, value: 'option-7', title: 'DEV' },
     ],
 
-    joke_category: [{ title: 'ANIMAL' }, { title: 'CELEBRITY' }],
-
     card_classes: [
       { classes: 'card mt-5 p-4' },
       { classes: 'card favourite-card mt-5 p-4' },
     ],
 
     checked: null,
+
+    value: '',
+    categories: [],
   };
+
+  componentDidMount() {
+    fetch('https://api.chucknorris.io/jokes/random?category=animal')
+      .then((res) => res.json())
+      .then((data) =>
+        this.setState({
+          value: data.value,
+          categories: data.categories,
+        })
+      );
+  }
 
   onSelected = (e) => {
     // console.log(e.currentTarget.id);
     this.setState({ checked: e.currentTarget.id });
+    let btn = document.getElementById('button1');
+    btn.disabled = false;
   };
 
   render() {
     const radio = this.state.radio;
     const category = this.state.category;
-    const joke_category = this.state.joke_category;
     const card_classes = this.state.card_classes;
     const checked = this.state.checked;
+    const value = this.state.value;
+    const categories = this.state.categories;
 
     return (
       <div className="d-flex flex-row justify-content-between">
@@ -102,16 +117,17 @@ class Layout extends Component {
               ) : null}
             </div>
 
-            <button type="button" className="btn mt-4">
+            <button
+              type="button"
+              id="button1"
+              className="btn mt-4"
+              disabled="disabled"
+            >
               Get a joke
             </button>
 
-            <Card
-              classes={card_classes[0].classes}
-              title={joke_category[0].title}
-            >
-              No one truly knows who's Chuck Norris' real father. No one is
-              biologically strong enough for this. He must've conceived himself.
+            <Card classes={card_classes[0].classes} title={categories}>
+              {value}
             </Card>
           </div>
         </div>
@@ -119,19 +135,11 @@ class Layout extends Component {
         <div className="sidebar d-flex flex-column col-3 pt-5">
           <div className="mx-auto my-0 col-10">
             <h3>Favourite</h3>
-            <Card
-              classes={card_classes[1].classes}
-              title={joke_category[0].title}
-            >
-              No one truly knows who's Chuck Norris' real father. No one is
-              biologically strong enough for this. He must've conceived himself.
+            <Card classes={card_classes[1].classes} title={categories}>
+              {value}
             </Card>
-            <Card
-              classes={card_classes[1].classes}
-              title={joke_category[1].title}
-            >
-              No one truly knows who's Chuck Norris' real father. No one is
-              biologically strong enough for this. He must've conceived himself.
+            <Card classes={card_classes[1].classes} title={categories}>
+              {value}
             </Card>
           </div>
         </div>
