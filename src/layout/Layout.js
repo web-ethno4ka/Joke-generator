@@ -31,7 +31,23 @@ class Layout extends Component {
   };
 
   componentDidMount() {
-    fetch('https://api.chucknorris.io/jokes/random?category=animal')
+    // this.getRandomJoke();
+    // this.getJokeByCategory('movie');
+    this.getJokeBySearch('piping-hot');
+  }
+
+  getRandomJoke = () => {
+    fetch('https://api.chucknorris.io/jokes/random')
+      .then((res) => res.json())
+      .then((data) =>
+        this.setState({
+          value: data.value,
+        })
+      );
+  };
+
+  getJokeByCategory = (category) => {
+    fetch(`https://api.chucknorris.io/jokes/random?category=${category}`)
       .then((res) => res.json())
       .then((data) =>
         this.setState({
@@ -39,14 +55,31 @@ class Layout extends Component {
           categories: data.categories,
         })
       );
-  }
+  };
+
+  getJokeBySearch = (str) => {
+    fetch(`https://api.chucknorris.io/jokes/search?query=${str}`)
+      .then((res) => res.json())
+      .then((data) =>
+        this.setState({
+          value: data.result[0].value,
+          categories: data.result[0].categories,
+        })
+      );
+  };
 
   onSelected = (e) => {
     // console.log(e.currentTarget.id);
     this.setState({ checked: e.currentTarget.id });
-    let btn = document.getElementById('button1');
-    btn.disabled = false;
+
+    console.log(e.currentTarget.id);
   };
+
+  // getJoke = (e) => {
+  //   const ch = this.state.checked;
+  //   e.preventDefault();
+  //   console.log(ch);
+  // };
 
   render() {
     const radio = this.state.radio;
@@ -118,10 +151,11 @@ class Layout extends Component {
             </div>
 
             <button
+              disabled={this.state.checked === null}
+              // onClick={this.getJoke}
               type="button"
               id="button1"
               className="btn mt-4"
-              disabled="disabled"
             >
               Get a joke
             </button>
