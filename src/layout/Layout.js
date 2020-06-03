@@ -26,22 +26,24 @@ class Layout extends Component {
 
     checked: null,
 
-    value: '',
+    joke: '',
     categories: [],
+
+    inputValue: '',
   };
 
-  componentDidMount() {
-    // this.getRandomJoke();
-    // this.getJokeByCategory('movie');
-    this.getJokeBySearch('piping-hot');
-  }
+  // componentDidMount() {
+  //   // this.getRandomJoke();
+  //   // this.getJokeByCategory('movie');
+  //   this.getJokeBySearch('piping-hot');
+  // }
 
   getRandomJoke = () => {
     fetch('https://api.chucknorris.io/jokes/random')
       .then((res) => res.json())
       .then((data) =>
         this.setState({
-          value: data.value,
+          joke: data.value,
         })
       );
   };
@@ -51,7 +53,7 @@ class Layout extends Component {
       .then((res) => res.json())
       .then((data) =>
         this.setState({
-          value: data.value,
+          joke: data.value,
           categories: data.categories,
         })
       );
@@ -62,17 +64,26 @@ class Layout extends Component {
       .then((res) => res.json())
       .then((data) =>
         this.setState({
-          value: data.result[0].value,
+          joke: data.result[0].value,
           categories: data.result[0].categories,
         })
       );
   };
 
   onSelected = (e) => {
-    // console.log(e.currentTarget.id);
     this.setState({ checked: e.currentTarget.id });
+    // console.log(e.currentTarget.id);
+  };
 
-    console.log(e.currentTarget.id);
+  onHandleChange = (e) => {
+    this.setState({
+      inputValue: e.target.value,
+    });
+    console.log(e.target.value);
+  };
+
+  onButtonClick = () => {
+    this.getJokeBySearch(this.state.inputValue);
   };
 
   // getJoke = (e) => {
@@ -86,8 +97,9 @@ class Layout extends Component {
     const category = this.state.category;
     const card_classes = this.state.card_classes;
     const checked = this.state.checked;
-    const value = this.state.value;
+    const joke = this.state.joke;
     const categories = this.state.categories;
+    const inputValue = this.state.inputValue;
 
     return (
       <div className="d-flex flex-row justify-content-between">
@@ -146,13 +158,15 @@ class Layout extends Component {
                   className="mt-2 custom"
                   type="text"
                   placeholder="Free text search..."
+                  value={this.state.inputValue}
+                  onChange={(e) => this.onHandleChange(e)}
                 />
               ) : null}
             </div>
 
             <button
               disabled={this.state.checked === null}
-              // onClick={this.getJoke}
+              onClick={this.onButtonClick.bind(this)}
               type="button"
               id="button1"
               className="btn mt-4"
@@ -161,7 +175,7 @@ class Layout extends Component {
             </button>
 
             <Card classes={card_classes[0].classes} title={categories}>
-              {value}
+              {joke}
             </Card>
           </div>
         </div>
@@ -170,10 +184,10 @@ class Layout extends Component {
           <div className="mx-auto my-0 col-10">
             <h3>Favourite</h3>
             <Card classes={card_classes[1].classes} title={categories}>
-              {value}
+              {joke}
             </Card>
             <Card classes={card_classes[1].classes} title={categories}>
-              {value}
+              {joke}
             </Card>
           </div>
         </div>
