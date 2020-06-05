@@ -13,10 +13,10 @@ class Layout extends Component {
     ],
 
     category: [
-      { id: 4, value: 'option-4', title: 'ANIMAL' },
-      { id: 5, value: 'option-5', title: 'CAREER' },
-      { id: 6, value: 'option-6', title: 'CELEBRITY' },
-      { id: 7, value: 'option-7', title: 'DEV' },
+      { id: 4, value: 'ANIMAL', title: 'animal' },
+      { id: 5, value: 'CAREER', title: 'career' },
+      { id: 6, value: 'CELEBRITY', title: 'celebrity' },
+      { id: 7, value: 'DEV', title: 'dev' },
     ],
 
     card_classes: [
@@ -30,6 +30,8 @@ class Layout extends Component {
     categories: [],
 
     inputValue: '',
+
+    currentCategory: '',
   };
 
   // componentDidMount() {
@@ -48,8 +50,8 @@ class Layout extends Component {
       );
   };
 
-  getJokeByCategory = (category) => {
-    fetch(`https://api.chucknorris.io/jokes/random?category=${category}`)
+  getJokeByCategory = (jokeCategory) => {
+    fetch(`https://api.chucknorris.io/jokes/random?category=${jokeCategory}`)
       .then((res) => res.json())
       .then((data) =>
         this.setState({
@@ -79,18 +81,20 @@ class Layout extends Component {
     this.setState({
       inputValue: e.target.value,
     });
-    console.log(e.target.value);
+    // console.log(e.target.value);
+  };
+
+  onChangeCategory = (e) => {
+    this.setState({
+      currentCategory: e.target.title,
+    });
+    console.log(e.target.title);
   };
 
   onButtonClick = () => {
-    this.getJokeBySearch(this.state.inputValue);
+    this.getJokeByCategory(this.state.currentCategory);
+    // this.getJokeBySearch(this.state.inputValue);
   };
-
-  // getJoke = (e) => {
-  //   const ch = this.state.checked;
-  //   e.preventDefault();
-  //   console.log(ch);
-  // };
 
   render() {
     const radio = this.state.radio;
@@ -100,6 +104,7 @@ class Layout extends Component {
     const joke = this.state.joke;
     const categories = this.state.categories;
     const inputValue = this.state.inputValue;
+    // const currentCategory = this.state.currentCategory;
 
     return (
       <div className="d-flex flex-row justify-content-between">
@@ -125,23 +130,27 @@ class Layout extends Component {
                 <div className="joke-categories">
                   <Category
                     id={category[0].id}
-                    value={category[0].option}
+                    option={category[0].option}
                     title={category[0].title}
+                    onChangeCategory={this.onChangeCategory}
                   />
                   <Category
                     id={category[1].id}
-                    value={category[1].option}
+                    option={category[1].option}
                     title={category[1].title}
+                    onChangeCategory={this.onChangeCategory}
                   />
                   <Category
                     id={category[2].id}
-                    value={category[2].option}
+                    option={category[2].option}
                     title={category[2].title}
+                    onChangeCategory={this.onChangeCategory}
                   />
                   <Category
                     id={category[3].id}
-                    value={category[3].option}
+                    option={category[3].option}
                     title={category[3].title}
+                    onChangeCategory={this.onChangeCategory}
                   />
                 </div>
               ) : null}

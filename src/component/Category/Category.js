@@ -9,6 +9,8 @@ const Category = (props) => {
         type="radio"
         name="radiobtn-2"
         value={props.option}
+        title={props.title}
+        onChange={props.onChangeCategory}
       />
       <label htmlFor={props.id}>{props.title}</label>
     </div>
