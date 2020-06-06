@@ -8,11 +8,10 @@ const Category = (props) => {
         id={props.id}
         type="radio"
         name="radiobtn-2"
-        value={props.option}
-        title={props.title}
-        onChange={props.onChangeCategory}
+        value={props.value}
+        onChange={props.onChange}
       />
-      <label htmlFor={props.id}>{props.title}</label>
+      <label htmlFor={props.id}>{props.value}</label>
     </div>
   );
 };

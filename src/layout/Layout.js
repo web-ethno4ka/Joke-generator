@@ -7,16 +7,16 @@ import Card from '../component/Card/Card';
 class Layout extends Component {
   state = {
     radio: [
-      { id: 1, value: 'option-1', title: 'Random' },
-      { id: 2, value: 'option-2', title: 'From categories' },
-      { id: 3, value: 'option-3', title: 'Search' },
+      { id: 1, value: 'Random' },
+      { id: 2, value: 'From categories' },
+      { id: 3, value: 'Search' },
     ],
 
     category: [
-      { id: 4, value: 'ANIMAL', title: 'animal' },
-      { id: 5, value: 'CAREER', title: 'career' },
-      { id: 6, value: 'CELEBRITY', title: 'celebrity' },
-      { id: 7, value: 'DEV', title: 'dev' },
+      { id: 4, value: 'animal' },
+      { id: 5, value: 'career' },
+      { id: 6, value: 'celebrity' },
+      { id: 7, value: 'dev' },
     ],
 
     card_classes: [
@@ -86,13 +86,13 @@ class Layout extends Component {
 
   onChangeCategory = (e) => {
     this.setState({
-      currentCategory: e.target.title,
+      currentCategory: e.target.value,
     });
-    console.log(e.target.title);
   };
 
   onButtonClick = () => {
-    this.getJokeByCategory(this.state.currentCategory);
+    this.getRandomJoke();
+    // this.getJokeByCategory(this.state.currentCategory);
     // this.getJokeBySearch(this.state.inputValue);
   };
 
@@ -104,7 +104,6 @@ class Layout extends Component {
     const joke = this.state.joke;
     const categories = this.state.categories;
     const inputValue = this.state.inputValue;
-    // const currentCategory = this.state.currentCategory;
 
     return (
       <div className="d-flex flex-row justify-content-between">
@@ -114,52 +113,45 @@ class Layout extends Component {
             <h2>Let's try to find a joke for you:</h2>
             <div className="d-flex flex-column mt-3">
               <RadioButton
-                onSelected={this.onSelected}
+                onChange={this.onSelected}
                 id={radio[0].id}
-                value={radio[0].option}
-                title={radio[0].title}
+                value={radio[0].value}
               />
               <RadioButton
-                onSelected={this.onSelected}
+                onChange={this.onSelected}
                 id={radio[1].id}
-                value={radio[1].option}
-                title={radio[1].title}
+                value={radio[1].value}
               />
 
               {checked == 2 ? (
                 <div className="joke-categories">
                   <Category
                     id={category[0].id}
-                    option={category[0].option}
-                    title={category[0].title}
-                    onChangeCategory={this.onChangeCategory}
+                    value={category[0].value}
+                    onChange={this.onChangeCategory}
                   />
                   <Category
                     id={category[1].id}
-                    option={category[1].option}
-                    title={category[1].title}
-                    onChangeCategory={this.onChangeCategory}
+                    value={category[1].value}
+                    onChange={this.onChangeCategory}
                   />
                   <Category
                     id={category[2].id}
-                    option={category[2].option}
-                    title={category[2].title}
-                    onChangeCategory={this.onChangeCategory}
+                    value={category[2].value}
+                    onChange={this.onChangeCategory}
                   />
                   <Category
                     id={category[3].id}
-                    option={category[3].option}
-                    title={category[3].title}
-                    onChangeCategory={this.onChangeCategory}
+                    value={category[3].value}
+                    onChange={this.onChangeCategory}
                   />
                 </div>
               ) : null}
 
               <RadioButton
-                onSelected={this.onSelected}
+                onChange={this.onSelected}
                 id={radio[2].id}
-                value={radio[2].option}
-                title={radio[2].title}
+                value={radio[2].value}
               />
 
               {checked == 3 ? (
