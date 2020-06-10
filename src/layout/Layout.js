@@ -26,7 +26,7 @@ class Layout extends Component {
 
     checked: null,
 
-    joke: '',
+    jokes: [],
     categories: [],
 
     inputValue: '',
@@ -45,7 +45,7 @@ class Layout extends Component {
       .then((res) => res.json())
       .then((data) =>
         this.setState({
-          joke: data.value,
+          jokes: data.value,
         })
       );
   };
@@ -55,7 +55,7 @@ class Layout extends Component {
       .then((res) => res.json())
       .then((data) =>
         this.setState({
-          joke: data.value,
+          jokes: data.value,
           categories: data.categories,
         })
       );
@@ -64,11 +64,16 @@ class Layout extends Component {
   getJokeBySearch = (str) => {
     fetch(`https://api.chucknorris.io/jokes/search?query=${str}`)
       .then((res) => res.json())
-      .then((data) =>
-        this.setState({
-          joke: data.result[0].value,
-          categories: data.result[0].categories,
-        })
+      .then(
+        (data) => this.setState({ jokes: data.result })
+        // data.result.forEach((joke) => {
+        //   this.setState({
+        //     jokesList: jokesList.push(joke),
+        // })
+        // this.setState({
+        //   joke: data.result[0].value,
+        //   categories: data.result[0].categories,
+        // })
       );
   };
 
@@ -91,9 +96,9 @@ class Layout extends Component {
   };
 
   onButtonClick = () => {
-    this.getRandomJoke();
+    // this.getRandomJoke();
     // this.getJokeByCategory(this.state.currentCategory);
-    // this.getJokeBySearch(this.state.inputValue);
+    this.getJokeBySearch(this.state.inputValue);
   };
 
   render() {
@@ -101,9 +106,17 @@ class Layout extends Component {
     const category = this.state.category;
     const card_classes = this.state.card_classes;
     const checked = this.state.checked;
-    const joke = this.state.joke;
     const categories = this.state.categories;
     const inputValue = this.state.inputValue;
+
+    const jokes = this.state.jokes.map((joke) => (
+      <Card
+        key={joke.id}
+        classes={card_classes[0].classes}
+        category={joke.categories}
+        value={joke.value}
+      />
+    ));
 
     return (
       <div className="d-flex flex-row justify-content-between">
@@ -159,7 +172,7 @@ class Layout extends Component {
                   className="mt-2 custom"
                   type="text"
                   placeholder="Free text search..."
-                  value={this.state.inputValue}
+                  value={inputValue}
                   onChange={(e) => this.onHandleChange(e)}
                 />
               ) : null}
@@ -175,21 +188,23 @@ class Layout extends Component {
               Get a joke
             </button>
 
-            <Card classes={card_classes[0].classes} title={categories}>
-              {joke}
-            </Card>
+            <React.Fragment>{jokes}</React.Fragment>
+
+            {/* <Card classes={card_classes[0].classes} category={categories}>
+              {jokes[0]?.value}
+            </Card> */}
           </div>
         </div>
 
         <div className="sidebar d-flex flex-column col-3 pt-5">
           <div className="mx-auto my-0 col-10">
             <h3>Favourite</h3>
-            <Card classes={card_classes[1].classes} title={categories}>
-              {joke}
+            {/* <Card classes={card_classes[1].classes} category={categories} value={joke}>
+              {jokes}
             </Card>
-            <Card classes={card_classes[1].classes} title={categories}>
-              {joke}
-            </Card>
+            <Card classes={card_classes[1].classes} category={categories} value={joke}>
+              {jokes}
+            </Card> */}
           </div>
         </div>
       </div>
