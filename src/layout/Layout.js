@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactPaginate from 'react-paginate';
 import './Layout.css';
 import RadioButton from '../component/Radiobutton/Radiobutton';
 import Category from '../component/Category/Category';
@@ -32,6 +33,12 @@ class Layout extends Component {
     inputValue: '',
 
     currentCategory: '',
+
+    offset: 0,
+    data: [],
+    perPage: 3,
+    currentPage: 0,
+    postData: [],
   };
 
   // componentDidMount() {
@@ -65,7 +72,26 @@ class Layout extends Component {
     fetch(`https://api.chucknorris.io/jokes/search?query=${str}`)
       .then((res) => res.json())
       .then(
-        (data) => this.setState({ jokes: data.result })
+        (res) => {
+          const data = res.result;
+          const sliced = data.slice(
+            this.state.offset,
+            this.state.offset + this.state.perPage
+          );
+          const postData = sliced.map((joke) => (
+            <Card
+              key={joke.id}
+              classes={this.state.card_classes[0].classes}
+              category={joke.categories}
+              value={joke.value}
+            />
+          ));
+
+          this.setState({
+            pageCount: Math.ceil(data.length / this.state.perPage),
+            postData,
+          });
+        }
         // data.result.forEach((joke) => {
         //   this.setState({
         //     jokesList: jokesList.push(joke),
@@ -75,6 +101,15 @@ class Layout extends Component {
         //   categories: data.result[0].categories,
         // })
       );
+  };
+
+  handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    const offset = selectedPage * this.state.perPage;
+    this.setState({
+      currentPage: selectedPage,
+      offset: offset,
+    });
   };
 
   onSelected = (e) => {
@@ -108,15 +143,16 @@ class Layout extends Component {
     const checked = this.state.checked;
     const categories = this.state.categories;
     const inputValue = this.state.inputValue;
+    const postData = this.state.postData;
 
-    const jokes = this.state.jokes.map((joke) => (
-      <Card
-        key={joke.id}
-        classes={card_classes[0].classes}
-        category={joke.categories}
-        value={joke.value}
-      />
-    ));
+    // const jokes = this.state.jokes.map((joke) => (
+    //   <Card
+    //     key={joke.id}
+    //     classes={card_classes[0].classes}
+    //     category={joke.categories}
+    //     value={joke.value}
+    //   />
+    // ));
 
     return (
       <div className="d-flex flex-row justify-content-between">
@@ -188,7 +224,22 @@ class Layout extends Component {
               Get a joke
             </button>
 
-            <React.Fragment>{jokes}</React.Fragment>
+            <React.Fragment>
+              {postData}
+              <ReactPaginate
+                previousLabel={'prev'}
+                nextLabel={'next'}
+                breakLabel={'...'}
+                breakClassName={'break-me'}
+                pageCount={this.state.pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={this.handlePageClick}
+                containerClassName={'pagination'}
+                subContainerClassName={'pages pagination'}
+                activeClassName={'active'}
+              />
+            </React.Fragment>
 
             {/* <Card classes={card_classes[0].classes} category={categories}>
               {jokes[0]?.value}
