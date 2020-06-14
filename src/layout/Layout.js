@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-// import ReactPaginate from 'react-paginate';
 import Pagination from '../component/Pagination/Pagination';
-
 import './Layout.css';
 import RadioButton from '../component/Radiobutton/Radiobutton';
 import Category from '../component/Category/Category';
@@ -36,11 +34,8 @@ class Layout extends Component {
 
     currentCategory: '',
 
-    // offset: 0,
-    // data: [],
-    jokesPerPage: 3,
+    jokesPerPage: 5,
     currentPage: 1,
-    // postData: [],
   };
 
   // componentDidMount() {
@@ -48,6 +43,10 @@ class Layout extends Component {
   //   // this.getJokeByCategory('movie');
   //   this.getJokeBySearch('piping-hot');
   // }
+
+  componentDidUpdate() {
+    console.log(this.state.currentPage);
+  }
 
   getRandomJoke = () => {
     fetch('https://api.chucknorris.io/jokes/random')
@@ -64,8 +63,8 @@ class Layout extends Component {
       .then((res) => res.json())
       .then((data) =>
         this.setState({
-          jokes: data.value,
-          categories: data.categories,
+          jokes: data,
+          // categories: data.categories,
         })
       );
   };
@@ -85,7 +84,6 @@ class Layout extends Component {
     this.setState({
       inputValue: e.target.value,
     });
-    // console.log(e.target.value);
   };
 
   onChangeCategory = (e) => {
@@ -100,6 +98,12 @@ class Layout extends Component {
     this.getJokeBySearch(this.state.inputValue);
   };
 
+  paginate = (pageNumber) => {
+    this.setState({
+      currentPage: pageNumber,
+    });
+  };
+
   render() {
     const radio = this.state.radio;
     const category = this.state.category;
@@ -107,26 +111,12 @@ class Layout extends Component {
     const checked = this.state.checked;
     const categories = this.state.categories;
     const inputValue = this.state.inputValue;
-    const indexOfLastPost = this.state.currentPage * this.state.jokesPerPage;
-    const indexOfFirstPost = indexOfLastPost - this.state.jokesPerPage;
+    const indexOfLastJoke = this.state.currentPage * this.state.jokesPerPage;
+    const indexOfFirstJoke = indexOfLastJoke - this.state.jokesPerPage;
     const currentJokes = this.state.jokes.slice(
-      indexOfFirstPost,
-      indexOfLastPost
+      indexOfFirstJoke,
+      indexOfLastJoke
     );
-
-    // const jokes = this.state.jokes.map((joke) => (
-    //   <Card
-    //     key={joke.id}
-    //     classes={card_classes[0].classes}
-    //     category={joke.categories}
-    //     value={joke.value}
-    //   />
-    // ));
-
-    // const currentJokes = this.state.jokes.slice(
-    //   indexOfFirstPage,
-    //   indexOfLastPost
-    // );
 
     return (
       <div className="d-flex flex-row justify-content-between">
@@ -205,24 +195,12 @@ class Layout extends Component {
                 classes={card_classes[0].classes}
                 category={categories}
               />
-              {/* <ReactPaginate
-                previousLabel={'prev'}
-                nextLabel={'next'}
-                breakLabel={'...'}
-                breakClassName={'break-me'}
-                pageCount={this.state.pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={this.handlePageClick}
-                containerClassName={'pagination'}
-                subContainerClassName={'pages pagination'}
-                activeClassName={'active'}
-              /> */}
+              <Pagination
+                jokesPerPage={this.state.jokesPerPage}
+                totalJokes={this.state.jokes.length}
+                paginate={this.paginate}
+              />
             </React.Fragment>
-            <Pagination
-              jokesPerPage={this.state.jokesPerPage}
-              totalJokes={this.state.jokes.length}
-            />
 
             {/* <Card classes={card_classes[0].classes} category={categories}>
               {jokes[0]?.value}
