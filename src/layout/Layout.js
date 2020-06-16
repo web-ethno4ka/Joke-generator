@@ -45,28 +45,27 @@ class Layout extends Component {
   // }
 
   componentDidUpdate() {
-    console.log(this.state.currentPage);
+    console.log(this.state.jokes);
   }
 
   getRandomJoke = () => {
     fetch('https://api.chucknorris.io/jokes/random')
       .then((res) => res.json())
-      .then((data) =>
-        this.setState({
-          jokes: data.value,
-        })
-      );
+      .then((data) => {
+        let jokeList = [];
+        jokeList.push(data);
+        this.setState({ jokes: jokeList });
+      });
   };
 
   getJokeByCategory = (jokeCategory) => {
     fetch(`https://api.chucknorris.io/jokes/random?category=${jokeCategory}`)
       .then((res) => res.json())
-      .then((data) =>
-        this.setState({
-          jokes: data,
-          // categories: data.categories,
-        })
-      );
+      .then((data) => {
+        let jokeList = [];
+        jokeList.push(data);
+        this.setState({ jokes: jokeList });
+      });
   };
 
   getJokeBySearch = (str) => {
@@ -93,9 +92,9 @@ class Layout extends Component {
   };
 
   onButtonClick = () => {
-    // this.getRandomJoke();
+    this.getRandomJoke();
     // this.getJokeByCategory(this.state.currentCategory);
-    this.getJokeBySearch(this.state.inputValue);
+    // this.getJokeBySearch(this.state.inputValue);
   };
 
   paginate = (pageNumber) => {
@@ -111,12 +110,13 @@ class Layout extends Component {
     const checked = this.state.checked;
     const categories = this.state.categories;
     const inputValue = this.state.inputValue;
-    const indexOfLastJoke = this.state.currentPage * this.state.jokesPerPage;
-    const indexOfFirstJoke = indexOfLastJoke - this.state.jokesPerPage;
-    const currentJokes = this.state.jokes.slice(
-      indexOfFirstJoke,
-      indexOfLastJoke
-    );
+    const jokes = this.state.jokes;
+    // const indexOfLastJoke = this.state.currentPage * this.state.jokesPerPage;
+    // const indexOfFirstJoke = indexOfLastJoke - this.state.jokesPerPage;
+    // const currentJokes = this.state.jokes.slice(
+    //   indexOfFirstJoke,
+    //   indexOfLastJoke
+    // );
 
     return (
       <div className="d-flex flex-row justify-content-between">
@@ -177,7 +177,6 @@ class Layout extends Component {
                 />
               ) : null}
             </div>
-
             <button
               disabled={this.state.checked === null}
               onClick={this.onButtonClick.bind(this)}
@@ -188,8 +187,13 @@ class Layout extends Component {
               Get a joke
             </button>
 
-            <React.Fragment>
-              {/* {jokes} */}
+            <Card
+              jokes={jokes}
+              classes={card_classes[0].classes}
+              categories={categories}
+            />
+
+            {/* <React.Fragment>
               <Card
                 jokes={currentJokes}
                 classes={card_classes[0].classes}
@@ -200,7 +204,7 @@ class Layout extends Component {
                 totalJokes={this.state.jokes.length}
                 paginate={this.paginate}
               />
-            </React.Fragment>
+            </React.Fragment> */}
 
             {/* <Card classes={card_classes[0].classes} category={categories}>
               {jokes[0]?.value}
