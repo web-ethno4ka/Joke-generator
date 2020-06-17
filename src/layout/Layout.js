@@ -36,6 +36,8 @@ class Layout extends Component {
 
     jokesPerPage: 5,
     currentPage: 1,
+
+    handler: function () {},
   };
 
   // componentDidMount() {
@@ -44,9 +46,9 @@ class Layout extends Component {
   //   this.getJokeBySearch('piping-hot');
   // }
 
-  componentDidUpdate() {
-    console.log(this.state.jokes);
-  }
+  // componentDidUpdate() {
+  //   console.log(this.state.jokes);
+  // }
 
   getRandomJoke = () => {
     fetch('https://api.chucknorris.io/jokes/random')
@@ -58,8 +60,10 @@ class Layout extends Component {
       });
   };
 
-  getJokeByCategory = (jokeCategory) => {
-    fetch(`https://api.chucknorris.io/jokes/random?category=${jokeCategory}`)
+  getJokeByCategory = () => {
+    fetch(
+      `https://api.chucknorris.io/jokes/random?category=${this.state.currentCategory}`
+    )
       .then((res) => res.json())
       .then((data) => {
         let jokeList = [];
@@ -68,16 +72,55 @@ class Layout extends Component {
       });
   };
 
-  getJokeBySearch = (str) => {
-    fetch(`https://api.chucknorris.io/jokes/search?query=${str}`)
+  getJokeBySearch = () => {
+    fetch(
+      `https://api.chucknorris.io/jokes/search?query=${this.state.inputValue}`
+    )
       .then((res) => res.json())
       .then((data) => this.setState({ jokes: data.result }));
   };
 
   onSelected = (e) => {
+    switch (e.currentTarget.id) {
+      case '1':
+        this.setState({
+          handler: this.getRandomJoke,
+        });
+        break;
+      case '2':
+        this.setState({
+          handler: this.getJokeByCategory,
+        });
+        break;
+      case '3':
+        this.setState({
+          handler: this.getJokeBySearch,
+        });
+        break;
+      default:
+        this.setState({
+          handler: function () {},
+        });
+        break;
+    }
+
+    this.setState({ currentPage: 1 });
+
     this.setState({ checked: e.currentTarget.id });
     // console.log(e.currentTarget.id);
   };
+
+  // isDisabled = () => {
+  //   if (
+  //     this.state.checked === null ||
+  //     this.state.category.value === '' ||
+  //     this.state.inputValue === ''
+  //   ) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // };
 
   onHandleChange = (e) => {
     this.setState({
@@ -92,9 +135,7 @@ class Layout extends Component {
   };
 
   onButtonClick = () => {
-    this.getRandomJoke();
-    // this.getJokeByCategory(this.state.currentCategory);
-    // this.getJokeBySearch(this.state.inputValue);
+    this.state.handler.call(this);
   };
 
   paginate = (pageNumber) => {
@@ -104,19 +145,12 @@ class Layout extends Component {
   };
 
   render() {
-    const radio = this.state.radio;
-    const category = this.state.category;
-    const card_classes = this.state.card_classes;
-    const checked = this.state.checked;
-    const categories = this.state.categories;
-    const inputValue = this.state.inputValue;
-    const jokes = this.state.jokes;
-    // const indexOfLastJoke = this.state.currentPage * this.state.jokesPerPage;
-    // const indexOfFirstJoke = indexOfLastJoke - this.state.jokesPerPage;
-    // const currentJokes = this.state.jokes.slice(
-    //   indexOfFirstJoke,
-    //   indexOfLastJoke
-    // );
+    const indexOfLastJoke = this.state.currentPage * this.state.jokesPerPage;
+    const indexOfFirstJoke = indexOfLastJoke - this.state.jokesPerPage;
+    const currentJokes = this.state.jokes.slice(
+      indexOfFirstJoke,
+      indexOfLastJoke
+    );
 
     return (
       <div className="d-flex flex-row justify-content-between">
@@ -127,35 +161,35 @@ class Layout extends Component {
             <div className="d-flex flex-column mt-3">
               <RadioButton
                 onChange={this.onSelected}
-                id={radio[0].id}
-                value={radio[0].value}
+                id={this.state.radio[0].id}
+                value={this.state.radio[0].value}
               />
               <RadioButton
                 onChange={this.onSelected}
-                id={radio[1].id}
-                value={radio[1].value}
+                id={this.state.radio[1].id}
+                value={this.state.radio[1].value}
               />
 
-              {checked == 2 ? (
+              {this.state.checked == 2 ? (
                 <div className="joke-categories">
                   <Category
-                    id={category[0].id}
-                    value={category[0].value}
+                    id={this.state.category[0].id}
+                    value={this.state.category[0].value}
                     onChange={this.onChangeCategory}
                   />
                   <Category
-                    id={category[1].id}
-                    value={category[1].value}
+                    id={this.state.category[1].id}
+                    value={this.state.category[1].value}
                     onChange={this.onChangeCategory}
                   />
                   <Category
-                    id={category[2].id}
-                    value={category[2].value}
+                    id={this.state.category[2].id}
+                    value={this.state.category[2].value}
                     onChange={this.onChangeCategory}
                   />
                   <Category
-                    id={category[3].id}
-                    value={category[3].value}
+                    id={this.state.category[3].id}
+                    value={this.state.category[3].value}
                     onChange={this.onChangeCategory}
                   />
                 </div>
@@ -163,22 +197,23 @@ class Layout extends Component {
 
               <RadioButton
                 onChange={this.onSelected}
-                id={radio[2].id}
-                value={radio[2].value}
+                id={this.state.radio[2].id}
+                value={this.state.radio[2].value}
               />
 
-              {checked == 3 ? (
+              {this.state.checked == 3 ? (
                 <input
                   className="mt-2 custom"
                   type="text"
                   placeholder="Free text search..."
-                  value={inputValue}
+                  value={this.state.inputValue}
                   onChange={(e) => this.onHandleChange(e)}
                 />
               ) : null}
             </div>
             <button
               disabled={this.state.checked === null}
+              // disabled={this.isDisabled()}
               onClick={this.onButtonClick.bind(this)}
               type="button"
               id="button1"
@@ -187,38 +222,28 @@ class Layout extends Component {
               Get a joke
             </button>
 
-            <Card
-              jokes={jokes}
-              classes={card_classes[0].classes}
-              categories={categories}
-            />
-
-            {/* <React.Fragment>
+            {currentJokes.map((joke, id) => (
               <Card
-                jokes={currentJokes}
-                classes={card_classes[0].classes}
-                category={categories}
+                key={id}
+                joke={joke}
+                classes={this.state.card_classes[0].classes}
               />
-              <Pagination
-                jokesPerPage={this.state.jokesPerPage}
-                totalJokes={this.state.jokes.length}
-                paginate={this.paginate}
-              />
-            </React.Fragment> */}
-
-            {/* <Card classes={card_classes[0].classes} category={categories}>
-              {jokes[0]?.value}
-            </Card> */}
+            ))}
+            <Pagination
+              jokesPerPage={this.state.jokesPerPage}
+              totalJokes={this.state.jokes.length}
+              paginate={this.paginate}
+            />
           </div>
         </div>
 
         <div className="sidebar d-flex flex-column col-3 pt-5">
           <div className="mx-auto my-0 col-10">
             <h3>Favourite</h3>
-            {/* <Card classes={card_classes[1].classes} category={categories} value={joke}>
+            {/* <Card classes={this.state.card_classes[1].classes} category={categories} value={joke}>
               {jokes}
             </Card>
-            <Card classes={card_classes[1].classes} category={categories} value={joke}>
+            <Card classes={this.state.card_classes[1].classes} category={categories} value={joke}>
               {jokes}
             </Card> */}
           </div>
