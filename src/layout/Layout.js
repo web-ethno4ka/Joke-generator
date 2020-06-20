@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Pagination from '../component/Pagination/Pagination';
-import './Layout.css';
 import RadioButton from '../component/Radiobutton/Radiobutton';
 import Category from '../component/Category/Category';
 import Card from '../component/Card/Card';
+import './Layout.css';
 
 class Layout extends Component {
   state = {
@@ -20,10 +20,7 @@ class Layout extends Component {
       { id: 7, value: 'dev' },
     ],
 
-    card_classes: [
-      { classes: 'card mt-5 p-4' },
-      { classes: 'card favourite-card mt-5 p-4' },
-    ],
+    card_classes: [{ classes: 'card mt-5 p-4' }, { classes: 'card favourite-card mt-5 p-4' }],
 
     checked: null,
 
@@ -41,9 +38,6 @@ class Layout extends Component {
   };
 
   // componentDidMount() {
-  //   // this.getRandomJoke();
-  //   // this.getJokeByCategory('movie');
-  //   this.getJokeBySearch('piping-hot');
   // }
 
   // componentDidUpdate() {
@@ -61,9 +55,7 @@ class Layout extends Component {
   };
 
   getJokeByCategory = () => {
-    fetch(
-      `https://api.chucknorris.io/jokes/random?category=${this.state.currentCategory}`
-    )
+    fetch(`https://api.chucknorris.io/jokes/random?category=${this.state.currentCategory}`)
       .then((res) => res.json())
       .then((data) => {
         let jokeList = [];
@@ -73,9 +65,7 @@ class Layout extends Component {
   };
 
   getJokeBySearch = () => {
-    fetch(
-      `https://api.chucknorris.io/jokes/search?query=${this.state.inputValue}`
-    )
+    fetch(`https://api.chucknorris.io/jokes/search?query=${this.state.inputValue}`)
       .then((res) => res.json())
       .then((data) => this.setState({ jokes: data.result }));
   };
@@ -134,6 +124,16 @@ class Layout extends Component {
     });
   };
 
+  isDisabled = () => {
+    if (
+      this.state.checked == 1 ||
+      (this.state.checked == 2 && this.state.currentCategory !== '') ||
+      (this.state.checked == 3 && this.state.inputValue !== '')
+    ) {
+      return false;
+    } else return true;
+  };
+
   onButtonClick = () => {
     this.state.handler.call(this);
   };
@@ -147,13 +147,10 @@ class Layout extends Component {
   render() {
     const indexOfLastJoke = this.state.currentPage * this.state.jokesPerPage;
     const indexOfFirstJoke = indexOfLastJoke - this.state.jokesPerPage;
-    const currentJokes = this.state.jokes.slice(
-      indexOfFirstJoke,
-      indexOfLastJoke
-    );
+    const currentJokes = this.state.jokes.slice(indexOfFirstJoke, indexOfLastJoke);
 
     return (
-      <div className="d-flex flex-row justify-content-between">
+      <div className="d-flex flex-row justify-content-between align-items-stretch min-vh-100">
         <div className="d-flex flex-column col-8 my-5">
           <div className="mx-auto my-0 col-8">
             <h1>Hey!</h1>
@@ -212,22 +209,17 @@ class Layout extends Component {
               ) : null}
             </div>
             <button
-              disabled={this.state.checked === null}
-              // disabled={this.isDisabled()}
+              // disabled={this.state.checked === null}
+              disabled={this.isDisabled()}
               onClick={this.onButtonClick.bind(this)}
               type="button"
               id="button1"
-              className="btn mt-4"
-            >
+              className="btn mt-4">
               Get a joke
             </button>
 
             {currentJokes.map((joke, id) => (
-              <Card
-                key={id}
-                joke={joke}
-                classes={this.state.card_classes[0].classes}
-              />
+              <Card key={id} joke={joke} classes={this.state.card_classes[0].classes} />
             ))}
             <Pagination
               jokesPerPage={this.state.jokesPerPage}

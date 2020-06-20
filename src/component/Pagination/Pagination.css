@@ -1,0 +1,8 @@
+.pagination {
+  flex-wrap: wrap;
+}
+
+.page-link:focus {
+  background-color: #7190ff;
+  color: white;
+}

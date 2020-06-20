@@ -9,8 +9,9 @@ const Card = ({ joke, classes }) => {
         <i className="far fa-comment-alt fa-inverse col-1"></i>
         <p className="col-11">{joke.value}</p>
       </div>
-
-      <div className="category align-self-end">{joke.categories}</div>
+      {joke.categories != '' ? (
+        <div className="category align-self-end">{joke.categories}</div>
+      ) : null}
     </div>
   );
 };
