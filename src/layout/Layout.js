@@ -27,6 +27,7 @@ class Layout extends Component {
     jokes: [],
     categories: [],
 
+    favourites: [],
     inputValue: '',
 
     currentCategory: '',
@@ -37,8 +38,13 @@ class Layout extends Component {
     handler: function () {},
   };
 
-  // componentDidMount() {
-  // }
+  componentDidMount() {
+    let favourites = Object.keys(localStorage).map((key) => JSON.parse(localStorage.getItem(key)));
+
+    this.setState({
+      favourites,
+    });
+  }
 
   // componentDidUpdate() {
   //   console.log(this.state.jokes);
@@ -71,32 +77,29 @@ class Layout extends Component {
   };
 
   onSelected = (e) => {
+    let handler;
     switch (e.currentTarget.id) {
       case '1':
-        this.setState({
-          handler: this.getRandomJoke,
-        });
+        handler = this.getRandomJoke;
         break;
       case '2':
-        this.setState({
-          handler: this.getJokeByCategory,
-        });
+        handler = this.getJokeByCategory;
         break;
       case '3':
-        this.setState({
-          handler: this.getJokeBySearch,
-        });
+        handler = this.getJokeBySearch;
         break;
       default:
-        this.setState({
-          handler: function () {},
-        });
+        handler = function () {};
         break;
     }
 
-    this.setState({ currentPage: 1 });
+    this.setState({
+      handler,
+      currentPage: 1,
+      inputValue: '',
+      checked: e.currentTarget.id,
+    });
 
-    this.setState({ checked: e.currentTarget.id });
     // console.log(e.currentTarget.id);
   };
 
@@ -126,9 +129,9 @@ class Layout extends Component {
 
   isDisabled = () => {
     if (
-      this.state.checked == 1 ||
-      (this.state.checked == 2 && this.state.currentCategory !== '') ||
-      (this.state.checked == 3 && this.state.inputValue !== '')
+      this.state.checked === '1' ||
+      (this.state.checked === '2' && this.state.currentCategory !== '') ||
+      (this.state.checked === '3' && this.state.inputValue !== '')
     ) {
       return false;
     } else return true;
@@ -143,6 +146,15 @@ class Layout extends Component {
       currentPage: pageNumber,
     });
   };
+
+  like = (joke) => {
+    localStorage.setItem(joke.id, JSON.stringify(joke));
+    this.setState({
+      favourites: [...this.state.favourites, joke],
+    });
+  };
+
+  dislike = (joke) => {};
 
   render() {
     const indexOfLastJoke = this.state.currentPage * this.state.jokesPerPage;
@@ -167,7 +179,7 @@ class Layout extends Component {
                 value={this.state.radio[1].value}
               />
 
-              {this.state.checked == 2 ? (
+              {this.state.checked === '2' ? (
                 <div className="joke-categories">
                   <Category
                     id={this.state.category[0].id}
@@ -198,7 +210,7 @@ class Layout extends Component {
                 value={this.state.radio[2].value}
               />
 
-              {this.state.checked == 3 ? (
+              {this.state.checked === '3' ? (
                 <input
                   className="mt-2 custom"
                   type="text"
@@ -219,7 +231,12 @@ class Layout extends Component {
             </button>
 
             {currentJokes.map((joke, id) => (
-              <Card key={id} joke={joke} classes={this.state.card_classes[0].classes} />
+              <Card
+                key={id}
+                onClick={this.like}
+                joke={joke}
+                classes={this.state.card_classes[0].classes}
+              />
             ))}
             <Pagination
               jokesPerPage={this.state.jokesPerPage}
@@ -232,12 +249,14 @@ class Layout extends Component {
         <div className="sidebar d-flex flex-column col-3 pt-5">
           <div className="mx-auto my-0 col-10">
             <h3>Favourite</h3>
-            {/* <Card classes={this.state.card_classes[1].classes} category={categories} value={joke}>
-              {jokes}
-            </Card>
-            <Card classes={this.state.card_classes[1].classes} category={categories} value={joke}>
-              {jokes}
-            </Card> */}
+            {this.state.favourites.map((joke, id) => (
+              <Card
+                key={id}
+                onClick={this.like}
+                joke={joke}
+                classes={this.state.card_classes[1].classes}
+              />
+            ))}
           </div>
         </div>
       </div>

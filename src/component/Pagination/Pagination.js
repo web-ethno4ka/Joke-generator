@@ -12,7 +12,13 @@ const Pagination = ({ jokesPerPage, totalJokes, paginate }) => {
       <ul className="pagination pagination-sm mt-5">
         {pageNumbers.map((number) => (
           <li key={number} className="page-item">
-            <a onClick={() => paginate(number)} href="!#" className="page-link">
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                paginate(number);
+              }}
+              href="!#"
+              className="page-link">
               {number}
             </a>
           </li>

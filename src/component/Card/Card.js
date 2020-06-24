@@ -1,15 +1,17 @@
 import React from 'react';
 import './Card.css';
 
-const Card = ({ joke, classes }) => {
+const Card = ({ joke, classes, onClick }) => {
   return (
     <div className={classes} key={joke.id}>
-      <i className="far fa-heart col-1 align-self-end"></i>
+      <span className="col-1 align-self-end" onClick={() => onClick(joke)}>
+        <i className="far fa-heart"></i>
+      </span>
       <div className="card-body d-flex justify-content-between">
         <i className="far fa-comment-alt fa-inverse col-1"></i>
         <p className="col-11">{joke.value}</p>
       </div>
-      {joke.categories != '' ? (
+      {joke.categories.length ? (
         <div className="category align-self-end">{joke.categories}</div>
       ) : null}
     </div>
