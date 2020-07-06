@@ -103,18 +103,6 @@ class Layout extends Component {
     // console.log(e.currentTarget.id);
   };
 
-  // isDisabled = () => {
-  //   if (
-  //     this.state.checked === null ||
-  //     this.state.category.value === '' ||
-  //     this.state.inputValue === ''
-  //   ) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // };
-
   onHandleChange = (e) => {
     this.setState({
       inputValue: e.target.value,
@@ -154,7 +142,15 @@ class Layout extends Component {
     });
   };
 
-  dislike = (joke) => {};
+  dislike = (joke) => {
+    localStorage.removeItem(joke.id);
+    console.log(joke.id);
+    let newFavourites = this.state.favourites.filter((favourite) => favourite.id !== joke.id);
+    this.setState({
+      // favourites: [...this.state.favourites.splice(this.state.favourites.indexOf(joke), 1)],
+      favourites: [...newFavourites],
+    });
+  };
 
   render() {
     const indexOfLastJoke = this.state.currentPage * this.state.jokesPerPage;
@@ -221,7 +217,6 @@ class Layout extends Component {
               ) : null}
             </div>
             <button
-              // disabled={this.state.checked === null}
               disabled={this.isDisabled()}
               onClick={this.onButtonClick.bind(this)}
               type="button"
@@ -252,7 +247,7 @@ class Layout extends Component {
             {this.state.favourites.map((joke, id) => (
               <Card
                 key={id}
-                onClick={this.like}
+                onClick={this.dislike}
                 joke={joke}
                 classes={this.state.card_classes[1].classes}
               />

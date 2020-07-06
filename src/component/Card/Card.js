@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Card.css';
 
 const Card = ({ joke, classes, onClick }) => {
+  let isLiked = () => {
+    return localStorage.getItem(joke.id);
+  };
+
+  let icon;
+  if (isLiked(joke)) {
+    icon = 'fas fa-heart';
+  } else {
+    icon = 'far fa-heart';
+  }
+
   return (
     <div className={classes} key={joke.id}>
-      <span className="col-1 align-self-end" onClick={() => onClick(joke)}>
-        <i className="far fa-heart"></i>
+      <span className="col-1 align-self-end">
+        <i
+          className={icon}
+          onClick={() => {
+            onClick(joke);
+          }}></i>
       </span>
       <div className="card-body d-flex justify-content-between">
         <i className="far fa-comment-alt fa-inverse col-1"></i>
