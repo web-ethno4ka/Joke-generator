@@ -137,8 +137,10 @@ class Layout extends Component {
 
   like = (joke) => {
     localStorage.setItem(joke.id, JSON.stringify(joke));
+    let jokeArr = Object.keys(localStorage).map((key) => JSON.parse(localStorage.getItem(key)));
+    // console.log(jokeArr);
     this.setState({
-      favourites: [...this.state.favourites, joke],
+      favourites: [...jokeArr],
     });
   };
 
