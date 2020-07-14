@@ -136,12 +136,12 @@ class Layout extends Component {
   };
 
   like = (joke) => {
-    localStorage.setItem(joke.id, JSON.stringify(joke));
-    let jokeArr = Object.keys(localStorage).map((key) => JSON.parse(localStorage.getItem(key)));
-    // console.log(jokeArr);
-    this.setState({
-      favourites: [...jokeArr],
-    });
+    if (!this.state.favourites.includes(joke)) {
+      localStorage.setItem(joke.id, JSON.stringify(joke));
+      this.setState({
+        favourites: [...this.state.favourites, joke],
+      });
+    }
   };
 
   dislike = (joke) => {
@@ -152,6 +152,10 @@ class Layout extends Component {
       // favourites: [...this.state.favourites.splice(this.state.favourites.indexOf(joke), 1)],
       favourites: [...newFavourites],
     });
+  };
+
+  isFavourite = (joke) => {
+    return this.state.favourites.includes(joke);
   };
 
   render() {
@@ -179,26 +183,14 @@ class Layout extends Component {
 
               {this.state.checked === '2' ? (
                 <div className="joke-categories">
-                  <Category
-                    id={this.state.category[0].id}
-                    value={this.state.category[0].value}
-                    onChange={this.onChangeCategory}
-                  />
-                  <Category
-                    id={this.state.category[1].id}
-                    value={this.state.category[1].value}
-                    onChange={this.onChangeCategory}
-                  />
-                  <Category
-                    id={this.state.category[2].id}
-                    value={this.state.category[2].value}
-                    onChange={this.onChangeCategory}
-                  />
-                  <Category
-                    id={this.state.category[3].id}
-                    value={this.state.category[3].value}
-                    onChange={this.onChangeCategory}
-                  />
+                  {this.state.category.map((category, key) => (
+                    <Category
+                      key={key}
+                      id={category.id} // { id: 4, value: 'animal' },
+                      value={category.value}
+                      onChange={this.onChangeCategory}
+                    />
+                  ))}
                 </div>
               ) : null}
 
@@ -230,7 +222,8 @@ class Layout extends Component {
             {currentJokes.map((joke, id) => (
               <Card
                 key={id}
-                onClick={this.like}
+                isFavourite={this.isFavourite}
+                toggleFavourite={this.like}
                 joke={joke}
                 classes={this.state.card_classes[0].classes}
               />
@@ -249,7 +242,8 @@ class Layout extends Component {
             {this.state.favourites.map((joke, id) => (
               <Card
                 key={id}
-                onClick={this.dislike}
+                isFavourite={this.isFavourite}
+                toggleFavourite={this.dislike}
                 joke={joke}
                 classes={this.state.card_classes[1].classes}
               />

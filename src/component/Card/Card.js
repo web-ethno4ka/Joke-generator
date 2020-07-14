@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import './Card.css';
 
-const Card = ({ joke, classes, onClick }) => {
-  let isLiked = () => {
-    return localStorage.getItem(joke.id);
-  };
+const Card = ({ joke, classes, toggleFavourite, isFavourite }) => {
+  // let isLiked = () => {
+  //   return localStorage.getItem(joke.id);
+  // };
 
   let icon;
-  if (isLiked(joke)) {
+  if (isFavourite(joke)) {
     icon = 'fas fa-heart';
   } else {
     icon = 'far fa-heart';
@@ -19,7 +19,7 @@ const Card = ({ joke, classes, onClick }) => {
         <i
           className={icon}
           onClick={() => {
-            onClick(joke);
+            toggleFavourite(joke);
           }}></i>
       </span>
       <div className="card-body d-flex justify-content-between">
