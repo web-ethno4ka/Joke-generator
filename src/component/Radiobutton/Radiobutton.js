@@ -1,19 +1,19 @@
 import React from 'react';
 import './Radiobutton.css';
 
-const RadioButton = (props) => {
+const RadioButton = ({ value, onChange }) => {
   return (
     <div className="form-check mt-2">
       <input
-        onChange={props.onChange}
         className="form-check-input"
         type="radio"
         name="radiobtn"
-        id={props.id}
-        value={props.value}
+        id={value}
+        value={value}
+        onChange={onChange}
       />
-      <label className="form-check-label" htmlFor={props.id}>
-        {props.value}
+      <label className="form-check-label" htmlFor={value}>
+        {value}
       </label>
     </div>
   );

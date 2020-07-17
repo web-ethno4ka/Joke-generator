@@ -1,17 +1,20 @@
 import React from 'react';
 import './Category.css';
 
-const Category = (props) => {
+const Category = ({ value, onChange }) => {
   return (
     <div className="radio-group">
       <input
-        id={props.id}
+        className="radio-group__input"
         type="radio"
         name="radiobtn-2"
-        value={props.value}
-        onChange={props.onChange}
+        id={value}
+        value={value}
+        onChange={onChange}
       />
-      <label htmlFor={props.id}>{props.value}</label>
+      <label className="radio-group__label" htmlFor={value}>
+        {value}
+      </label>
     </div>
   );
 };

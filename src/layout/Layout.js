@@ -7,18 +7,9 @@ import './Layout.css';
 
 class Layout extends Component {
   state = {
-    radio: [
-      { id: 1, value: 'Random' },
-      { id: 2, value: 'From categories' },
-      { id: 3, value: 'Search' },
-    ],
+    radio: [{ value: 'Random' }, { value: 'From categories' }, { value: 'Search' }],
 
-    category: [
-      { id: 4, value: 'animal' },
-      { id: 5, value: 'career' },
-      { id: 6, value: 'celebrity' },
-      { id: 7, value: 'dev' },
-    ],
+    category: [{ value: 'animal' }, { value: 'career' }, { value: 'celebrity' }, { value: 'dev' }],
 
     card_classes: [{ classes: 'card mt-5 p-4' }, { classes: 'card favourite-card mt-5 p-4' }],
 
@@ -78,14 +69,14 @@ class Layout extends Component {
 
   onSelected = (e) => {
     let handler;
-    switch (e.currentTarget.id) {
-      case '1':
+    switch (e.currentTarget.value) {
+      case 'Random':
         handler = this.getRandomJoke;
         break;
-      case '2':
+      case 'From categories':
         handler = this.getJokeByCategory;
         break;
-      case '3':
+      case 'Search':
         handler = this.getJokeBySearch;
         break;
       default:
@@ -97,7 +88,7 @@ class Layout extends Component {
       handler,
       currentPage: 1,
       inputValue: '',
-      checked: e.currentTarget.id,
+      checked: e.currentTarget.value,
     });
 
     // console.log(e.currentTarget.id);
@@ -117,9 +108,9 @@ class Layout extends Component {
 
   isDisabled = () => {
     if (
-      this.state.checked === '1' ||
-      (this.state.checked === '2' && this.state.currentCategory !== '') ||
-      (this.state.checked === '3' && this.state.inputValue !== '')
+      this.state.checked === 'Random' ||
+      (this.state.checked === 'From categories' && this.state.currentCategory !== '') ||
+      (this.state.checked === 'Search' && this.state.inputValue !== '')
     ) {
       return false;
     } else return true;
@@ -170,37 +161,20 @@ class Layout extends Component {
             <h1>Hey!</h1>
             <h2>Let's try to find a joke for you:</h2>
             <div className="d-flex flex-column mt-3">
-              <RadioButton
-                onChange={this.onSelected}
-                id={this.state.radio[0].id}
-                value={this.state.radio[0].value}
-              />
-              <RadioButton
-                onChange={this.onSelected}
-                id={this.state.radio[1].id}
-                value={this.state.radio[1].value}
-              />
+              <RadioButton onChange={this.onSelected} value={this.state.radio[0].value} />
+              <RadioButton onChange={this.onSelected} value={this.state.radio[1].value} />
 
-              {this.state.checked === '2' ? (
+              {this.state.checked === 'From categories' ? (
                 <div className="joke-categories">
                   {this.state.category.map((category, key) => (
-                    <Category
-                      key={key}
-                      id={category.id} // { id: 4, value: 'animal' },
-                      value={category.value}
-                      onChange={this.onChangeCategory}
-                    />
+                    <Category key={key} value={category.value} onChange={this.onChangeCategory} />
                   ))}
                 </div>
               ) : null}
 
-              <RadioButton
-                onChange={this.onSelected}
-                id={this.state.radio[2].id}
-                value={this.state.radio[2].value}
-              />
+              <RadioButton onChange={this.onSelected} value={this.state.radio[2].value} />
 
-              {this.state.checked === '3' ? (
+              {this.state.checked === 'Search' ? (
                 <input
                   className="mt-2 custom"
                   type="text"
@@ -210,6 +184,7 @@ class Layout extends Component {
                 />
               ) : null}
             </div>
+
             <button
               disabled={this.isDisabled()}
               onClick={this.onButtonClick.bind(this)}
