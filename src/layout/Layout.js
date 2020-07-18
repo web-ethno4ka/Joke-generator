@@ -156,8 +156,8 @@ class Layout extends Component {
 
     return (
       <div className="d-flex flex-row justify-content-between align-items-stretch min-vh-100">
-        <div className="d-flex flex-column col-8 my-5">
-          <div className="mx-auto my-0 col-8">
+        <div className="section-main d-flex flex-column col-md-7 col-sm-10 my-5">
+          <div className="mx-auto my-0 col-md-8 col-10">
             <h1>Hey!</h1>
             <h2>Let's try to find a joke for you:</h2>
             <div className="d-flex flex-column mt-3">
@@ -176,7 +176,7 @@ class Layout extends Component {
 
               {this.state.checked === 'Search' ? (
                 <input
-                  className="mt-2 custom"
+                  className="stylized-input mt-2"
                   type="text"
                   placeholder="Free text search..."
                   value={this.state.inputValue}
@@ -190,7 +190,7 @@ class Layout extends Component {
               onClick={this.onButtonClick.bind(this)}
               type="button"
               id="button1"
-              className="btn mt-4">
+              className="get-joke-btn btn mt-4">
               Get a joke
             </button>
 
@@ -211,7 +211,7 @@ class Layout extends Component {
           </div>
         </div>
 
-        <div className="sidebar d-flex flex-column col-3 pt-5">
+        <div className="section-favourite d-md-flex d-none d-sm-none flex-column col-xl-4 col-lg-5 pt-5">
           <div className="mx-auto my-0 col-10">
             <h3>Favourite</h3>
             {this.state.favourites.map((joke, id) => (

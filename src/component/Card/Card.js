@@ -27,7 +27,7 @@ const Card = ({ joke, classes, toggleFavourite, isFavourite }) => {
         <p className="col-11">{joke.value}</p>
       </div>
       {joke.categories.length ? (
-        <div className="category align-self-end">{joke.categories}</div>
+        <div className="card-category align-self-end">{joke.categories}</div>
       ) : null}
     </div>
   );

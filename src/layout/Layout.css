@@ -1,10 +1,10 @@
-.custom {
+.stylized-input {
   padding: 0.4rem 1rem;
   border-radius: 0.4rem;
   border: 1px solid #333;
 }
 
-.btn {
+.get-joke-btn {
   font-size: 1.1rem;
   width: 10rem;
   color: #fff;
@@ -13,18 +13,18 @@
   transition: all 0.3s ease-in-out;
 }
 
-.btn:hover {
+.get-joke-btn:hover {
   color: #fff;
   background-color: #7f9bff;
 }
 
-.sidebar {
+.section-favourite {
   padding-left: 0;
   background-color: #f8f8f8;
 }
 
 .favourite-card {
-  max-width: 26rem;
+  max-width: 28rem;
   background-color: #fff;
   box-shadow: 0 3px 7px 1px rgba(48, 48, 48, 0.1);
   font-size: 1rem;
@@ -32,4 +32,9 @@
 
 h3 {
   color: #ababab;
+}
+
+@media (max-width: 768px) {
+  .section-favourite {
+  }
 }
