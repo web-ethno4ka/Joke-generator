@@ -2,3 +2,9 @@
   font-family: 'Roboto', sans-serif;
   font-size: 1.2rem;
 }
+
+@media (max-width: 567px) {
+  .App {
+    font-size: 1rem;
+  }
+}

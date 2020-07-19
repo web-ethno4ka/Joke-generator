@@ -4,16 +4,17 @@
   border: 1px solid #333;
 }
 
-.get-joke-btn {
+.btn-styled {
   font-size: 1.1rem;
   width: 10rem;
+  max-height: 5rem;
   color: #fff;
   background-color: #7190ff;
   border-radius: 0.4rem;
   transition: all 0.3s ease-in-out;
 }
 
-.get-joke-btn:hover {
+.btn-styled:hover {
   color: #fff;
   background-color: #7f9bff;
 }
@@ -34,7 +35,36 @@ h3 {
   color: #ababab;
 }
 
+/* .display-flex {
+  display: flex;
+}
+
+.display-none {
+  display: none;
+} */
+
 @media (max-width: 768px) {
   .section-favourite {
+    position: absolute;
+    height: 100vh;
+    z-index: 2;
+  }
+
+  .btn-show {
+    position: absolute;
+    right: 0;
+    z-index: 3;
+  }
+
+  .btn {
+    font-size: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
   }
 }

@@ -25,6 +25,7 @@ class Layout extends Component {
 
     jokesPerPage: 5,
     currentPage: 1,
+    toggleShow: true,
 
     handler: function () {},
   };
@@ -149,6 +150,12 @@ class Layout extends Component {
     return this.state.favourites.includes(joke);
   };
 
+  toggleShowHide = (e) => {
+    this.setState({
+      toggleShow: !this.state.toggleShow,
+    });
+  };
+
   render() {
     const indexOfLastJoke = this.state.currentPage * this.state.jokesPerPage;
     const indexOfFirstJoke = indexOfLastJoke - this.state.jokesPerPage;
@@ -190,7 +197,7 @@ class Layout extends Component {
               onClick={this.onButtonClick.bind(this)}
               type="button"
               id="button1"
-              className="get-joke-btn btn mt-4">
+              className="btn btn-styled mt-4">
               Get a joke
             </button>
 
@@ -211,20 +218,49 @@ class Layout extends Component {
           </div>
         </div>
 
-        <div className="section-favourite d-md-flex d-none d-sm-none flex-column col-xl-4 col-lg-5 pt-5">
-          <div className="mx-auto my-0 col-10">
-            <h3>Favourite</h3>
-            {this.state.favourites.map((joke, id) => (
-              <Card
-                key={id}
-                isFavourite={this.isFavourite}
-                toggleFavourite={this.dislike}
-                joke={joke}
-                classes={this.state.card_classes[1].classes}
-              />
-            ))}
+        {/* <button
+          class="btn btn-styled d-md-none d-sm-block"
+          type="button"
+          data-toggle="collapse"
+          data-target="#favourite"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+          onClick={this.toggleShowHide}>
+          Show Favourites
+        </button> */}
+
+        {this.state.toggleShow === false ? (
+          <button
+            onClick={this.toggleShowHide}
+            type="button"
+            className="btn btn-show btn-styled d-md-none d-sm-block">
+            Show favourites
+          </button>
+        ) : (
+          <button
+            onClick={this.toggleShowHide}
+            type="button"
+            className="btn btn-show btn-styled d-md-none d-sm-block">
+            Hide favourites
+          </button>
+        )}
+
+        {this.state.toggleShow === true ? (
+          <div className="section-favourite d-flex flex-column col-xl-4 col-lg-5 col-md-5 col-sm-12 pt-5">
+            <div className="mx-auto my-0 col-10">
+              <h3>Favourite</h3>
+              {this.state.favourites.map((joke, id) => (
+                <Card
+                  key={id}
+                  isFavourite={this.isFavourite}
+                  toggleFavourite={this.dislike}
+                  joke={joke}
+                  classes={this.state.card_classes[1].classes}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     );
   }
