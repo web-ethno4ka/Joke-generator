@@ -218,17 +218,6 @@ class Layout extends Component {
           </div>
         </div>
 
-        {/* <button
-          class="btn btn-styled d-md-none d-sm-block"
-          type="button"
-          data-toggle="collapse"
-          data-target="#favourite"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-          onClick={this.toggleShowHide}>
-          Show Favourites
-        </button> */}
-
         {this.state.toggleShow === false ? (
           <button
             onClick={this.toggleShowHide}
